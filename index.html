@@ -1,0 +1,274 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="https://unpkg.com/dayjs@1.10.7/dayjs.min.js"></script>
+<script src="https://unpkg.com/dayjs@1.10.7/plugin/duration.js"></script>
+<script src="https://unpkg.com/dayjs@1.10.7/plugin/toArray.js"></script>
+<script>dayjs.extend(window.dayjs_plugin_duration)</script>
+<script>dayjs.extend(window.dayjs_plugin_toArray)</script>
+<style>
+    @font-face {
+        font-family: 'Myriad Pro Regular';
+        font-style: normal;
+        font-weight: normal;
+        src: local('Myriad Pro Regular'), url('res/MYRIADPRO-REGULAR.woff') format('woff');
+    }
+    @font-face {
+        font-family: 'Myriad Pro Light';
+        font-style: normal;
+        font-weight: normal;
+        src: local('Myriad Pro Light'), url('res/MyriadPro-Light.woff') format('woff');
+    }
+    h1 {
+        font-family:'Myriad Pro Regular';
+        letter-spacing: .22rem;
+        font-weight:normal;
+    }
+    #my_life {
+        display: block;
+    }
+    .decade {
+        margin-bottom: 0.3vw;
+    }
+    .year {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+    .month {
+        display: flex;
+        margin:0 0.22vw;
+    }
+    .week {
+        width: 1vw;
+        height: 1vw;
+        background-color: #999999;
+        border-radius: 50%;
+        margin: 0.06vw;
+    }
+    .week-done {
+        background-color: #000000;
+    }
+    .week_number, .year_number {
+        display: flex;
+        width: 1vw;
+        height: 1vw;
+        font-size: 0.75vw;
+        margin: 0.06vw;
+        font-family:'Myriad Pro Light';
+        font-weight:normal;
+        color: #999999;
+        justify-content: center;
+        align-items: center;
+    }
+    .week_bold, .year_bold {
+        font-weight:1000;
+        color: #000000;
+    }
+    .date_area {
+        position: fixed;
+        bottom: 0;
+        left: 0;
+        right: 0;
+        display: flex;
+        margin: 20px;
+        z-index: 20;
+        justify-content: center;
+        align-items: center;
+    }
+    .date_button {
+        display: inline-block;
+        padding: 10px 25px;
+        margin: 0;
+        width: auto;
+        min-width: 90px;
+        line-height: 1.42;
+        text-decoration: none;
+        text-align: center;
+        vertical-align: middle;
+        white-space: normal;
+        cursor: pointer;
+        border: 2px solid #999999;
+        -webkit-user-select: none;
+        -ms-user-select: none;
+        user-select: none;
+        -webkit-appearance: none;
+        -moz-appearance: none;
+        color: #fff;
+        background: #ffffff;
+        transition: background .15s ease;
+        border-radius: 35px;
+    }
+    .birthday {
+        --background: #fff;
+        --border: #e6e7ee;
+        --border-width: 0px;
+        --border-focus: #0077ff;
+        --border-focus-width: 0px;
+        --text: #00104b;
+        --text-placeholder: #999fb7;
+        --default: #0077ff;
+        --smoke: var(--text-placeholder);
+        --error: #ff5252;
+        border-radius: 8px;
+        position: relative;
+        display: flex;
+        align-items: center;
+        background: var(--background);
+        box-shadow: inset 0 0 0 var(--border-width) var(--border);
+        transition: box-shadow 0.3s;
+    }
+    .birthday input {
+        -webkit-appearance: none;
+        background: none;
+        border: none;
+        outline: none;
+        text-align: center;
+        font-family:'Myriad Pro Regular';
+        font-size: 24px;
+        margin: 0;
+        line-height: 28px;
+        padding: 5px 5px 5px 5px;
+        width: var(--w, 22px);
+        color: var(--text);
+    }
+        .birthday input {
+        --w: 40px;
+    }
+        .birthday input:first-of-type {
+        --w: 58px;
+    }
+        .birthday input::-moz-placeholder {
+        font-size: 24px;
+        color: var(--text-placeholder);
+    }
+        .birthday input:-ms-input-placeholder {
+        font-size: 24px;
+        color: var(--text-placeholder);
+    }
+        .birthday input::placeholder {
+        font-size: 24px;
+        color: var(--text-placeholder);
+    }
+        .birthday span {
+        display: block;
+        opacity: 0.4;
+        font-size: 24px;
+        margin: -8px 3px 0 3px;
+        color: var(--text-placeholder);
+    }
+</style>
+</head>
+<body>
+
+<div style="text-align:center">
+    <h1>MY LIFE IN WEEKS</h1>
+    <div id="my_life"></div>
+    <div class="date_area"><div class="date_button">
+        <div class="birthday">
+            <input type="text" class="year" id="yyyy" placeholder="YYYY" maxlength="4" pattern="\d*">
+            <span>-</span>
+            <input type="text" class="month" id="mm" placeholder="MM" maxlength="2" pattern="\d*">
+            <span>-</span>
+            <input type="text" class="day" id="dd" placeholder="DD" maxlength="2" pattern="\d*">
+        </div>        
+    </div></div>
+</div>
+
+<script>
+
+    let lived = 1775;
+    let ny = 0;
+    for(y=0; y<86+1;y++) {
+        let year = document.createElement('div');
+        year.className = "year";
+        let nw = 1;
+        if((y) % 10 == 0) year.classList.add("decade");
+        for(x=0; x<13+1;x++) {
+            var month = document.createElement('div');
+            month.className = "month";
+            if(x==0) {
+                var month = document.createElement('div');
+                month.className = "year_number";
+                if(y==0) month.innerHTML = " "
+                else month.innerHTML = ny-1
+                if((ny-1) % 5 == 0) month.classList.add("year_bold");
+            }
+            else {
+                for(i=0; i<4; i++) {
+                    var week = document.createElement('div');
+                    if(y==0) {
+                        week.className = "week_number"
+                        week.innerHTML = nw
+                        if(i==3 || (y==0 && nw == 1)) week.classList.add("week_bold");
+                    }
+                    else {
+                        week.className = "week"
+                    }
+                    nw++;
+                    month.appendChild(week);
+                }
+            }
+            year.appendChild(month);
+        }
+        document.getElementById('my_life').appendChild(year);
+        ny++
+    }
+
+    function calculate() {
+        if(yyyy.value < 1900 || yyyy.value > dayjs().year()) return;
+        if(mm.value < 1 || mm.value > 12) return;
+        if(dd.value < 1 || dd.value > 31) return;
+        let bd = dayjs(yyyy.value+"-"+mm.value+"-"+dd.value, "YYYY-MM-DD")
+        if(!bd.isValid()) return;
+        let diff = Math.floor(dayjs.duration(dayjs().diff(bd)).asWeeks())
+        console.log(diff)
+
+        localStorage.setItem('bd_year', bd.toArray()[0]);
+        localStorage.setItem('bd_month', bd.toArray()[1]+1);
+        localStorage.setItem('bd_day', bd.toArray()[2]);
+
+        var element = document.querySelector('#my_life');
+        var elementChildren = element.querySelectorAll('.week');
+
+        for (var i = 0; i < elementChildren.length; i++) {
+            if(i >= diff) elementChildren[i].classList.remove("week-done");  
+            else elementChildren[i].classList.add("week-done");      
+        }
+    }
+
+    let by = localStorage.getItem('bd_year');
+    let bm = localStorage.getItem('bd_month');
+    let bd = localStorage.getItem('bd_day');
+    if(by > 0 && bm > 0 && bd > 0) {
+        yyyy.value = by
+        mm.value = bm < 10 ? "0"+bm : bm
+        dd.value = bd < 10 ? "0"+bd : bd
+        calculate()
+    }
+
+    yyyy.oninput = function() {
+        if (this.value.length === parseInt(this.attributes["maxlength"].value)) {
+            mm.value = ""
+            mm.focus();
+        }
+        calculate();
+    }
+
+    mm.oninput = function() {
+        if (this.value.length === parseInt(this.attributes["maxlength"].value)) {
+            dd.value = ""
+            dd.focus();
+        }
+        calculate()
+    }
+
+    dd.oninput = function() {
+        calculate()
+    }
+
+</script>
+
+</body>
+</html> 
