@@ -1,164 +1,172 @@
 <!DOCTYPE html>
 <html>
 <head>
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<script src="https://unpkg.com/dayjs@1.10.7/dayjs.min.js"></script>
-<script src="https://unpkg.com/dayjs@1.10.7/plugin/duration.js"></script>
-<script src="https://unpkg.com/dayjs@1.10.7/plugin/toArray.js"></script>
-<script>dayjs.extend(window.dayjs_plugin_duration)</script>
-<script>dayjs.extend(window.dayjs_plugin_toArray)</script>
-<style>
-    @font-face {
-        font-family: 'Myriad Pro Regular';
-        font-style: normal;
-        font-weight: normal;
-        src: local('Myriad Pro Regular'), url('res/MYRIADPRO-REGULAR.woff') format('woff');
-    }
-    @font-face {
-        font-family: 'Myriad Pro Light';
-        font-style: normal;
-        font-weight: normal;
-        src: local('Myriad Pro Light'), url('res/MYRIADPRO-LIGHT.woff') format('woff');
-    }
-    h1 {
-        font-family:'Myriad Pro Regular';
-        letter-spacing: .22rem;
-        font-weight:normal;
-    }
-    #my_life {
-        display: block;
-    }
-    .decade {
-        margin-bottom: 0.29vw;
-    }
-    .year {
-        display: flex;
-        justify-content: center;
-        align-items: center;
-    }
-    .month {
-        display: flex;
-        margin:0 0.18vw;
-    }
-    .week {
-        width: 1vw;
-        height: 1vw;
-        background-color: #999999;
-        border-radius: 50%;
-        margin: 0.06vw;
-    }
-    .week-done {
-        background-color: #000000;
-    }
-    .week_number, .year_number {
-        display: flex;
-        width: 1vw;
-        height: 1vw;
-        font-size: 0.75vw;
-        margin: 0.06vw;
-        font-family:'Myriad Pro Light';
-        font-weight:normal;
-        color: #999999;
-        justify-content: center;
-        align-items: center;
-    }
-    .week_bold, .year_bold {
-        font-weight:1000;
-        color: #000000;
-    }
-    .date_area {
-        position: fixed;
-        bottom: 0;
-        left: 0;
-        right: 0;
-        display: flex;
-        margin: 20px;
-        z-index: 20;
-        justify-content: center;
-        align-items: center;
-    }
-    .date_button {
-        display: inline-block;
-        padding: 10px 25px;
-        margin: 0;
-        width: auto;
-        min-width: 90px;
-        line-height: 1.42;
-        text-decoration: none;
-        text-align: center;
-        vertical-align: middle;
-        white-space: normal;
-        cursor: pointer;
-        border: 2px solid #999999;
-        -webkit-user-select: none;
-        -ms-user-select: none;
-        user-select: none;
-        -webkit-appearance: none;
-        -moz-appearance: none;
-        color: #fff;
-        background: #ffffff;
-        transition: background .15s ease;
-        border-radius: 35px;
-    }
-    .birthday {
-        --background: #fff;
-        --border: #e6e7ee;
-        --border-width: 0px;
-        --border-focus: #0077ff;
-        --border-focus-width: 0px;
-        --text: #00104b;
-        --text-placeholder: #999fb7;
-        --default: #0077ff;
-        --smoke: var(--text-placeholder);
-        --error: #ff5252;
-        border-radius: 8px;
-        position: relative;
-        display: flex;
-        align-items: center;
-        background: var(--background);
-        box-shadow: inset 0 0 0 var(--border-width) var(--border);
-        transition: box-shadow 0.3s;
-    }
-    .birthday input {
-        -webkit-appearance: none;
-        background: none;
-        border: none;
-        outline: none;
-        text-align: center;
-        font-family:'Myriad Pro Regular';
-        font-size: 24px;
-        margin: 0;
-        line-height: 28px;
-        padding: 5px 5px 5px 5px;
-        width: var(--w, 22px);
-        color: var(--text);
-    }
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+
+    <script src="https://unpkg.com/dayjs@1.10.7/dayjs.min.js"></script>
+    <script src="https://unpkg.com/dayjs@1.10.7/plugin/duration.js"></script>
+    <script src="https://unpkg.com/dayjs@1.10.7/plugin/toArray.js"></script>
+    <script>dayjs.extend(window.dayjs_plugin_duration)</script>
+    <script>dayjs.extend(window.dayjs_plugin_toArray)</script>
+    <style>
+        @font-face {
+            font-family: 'Myriad Pro Regular';
+            font-style: normal;
+            font-weight: normal;
+            src: local('Myriad Pro Regular'), url('res/MYRIADPRO-REGULAR.woff') format('woff');
+        }
+        @font-face {
+            font-family: 'Myriad Pro Light';
+            font-style: normal;
+            font-weight: normal;
+            src: local('Myriad Pro Light'), url('res/MYRIADPRO-LIGHT.woff') format('woff');
+        }
+        h1 {
+            font-family:'Myriad Pro Regular';
+            letter-spacing: .22rem;
+            font-weight:normal;
+        }
+        #my_life {
+            display: block;
+        }
+        .decade {
+            margin-bottom: 0.29vw;
+        }
+        .year {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+        .month {
+            display: flex;
+            margin:0 0.18vw;
+        }
+        .week {
+            width: 1vw;
+            height: 1vw;
+            background-color: #999999;
+            border-radius: 50%;
+            margin: 0.06vw;
+        }
+        .week-done {
+            background-color: #000000;
+        }
+        .week_number, .year_number {
+            display: flex;
+            width: 1vw;
+            height: 1vw;
+            font-size: 0.75vw;
+            margin: 0.06vw;
+            font-family:'Myriad Pro Light';
+            font-weight:normal;
+            color: #999999;
+            justify-content: center;
+            align-items: center;
+        }
+        .week_bold, .year_bold {
+            font-weight:1000;
+            color: #000000;
+        }
+        .date_area {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            display: flex;
+            margin: 20px;
+            z-index: 20;
+            justify-content: center;
+            align-items: center;
+        }
+        .date_button {
+            display: inline-block;
+            padding: 10px 25px;
+            margin: 0;
+            width: auto;
+            min-width: 260px;
+            line-height: 1.42;
+            text-decoration: none;
+            text-align: center;
+            vertical-align: middle;
+            white-space: normal;
+            cursor: pointer;
+            border: 2px solid #999999;
+            -webkit-user-select: none;
+            -ms-user-select: none;
+            user-select: none;
+            -webkit-appearance: none;
+            -moz-appearance: none;
+            color: #fff;
+            background: #ffffff;
+            transition: background .15s ease;
+            border-radius: 35px;
+        }
+        .birthday {
+            --background: #fff;
+            --border: #e6e7ee;
+            --border-width: 0px;
+            --border-focus: #0077ff;
+            --border-focus-width: 0px;
+            --text: #00104b;
+            --text-placeholder: #999fb7;
+            --default: #0077ff;
+            --smoke: var(--text-placeholder);
+            --error: #ff5252;
+            border-radius: 8px;
+            position: relative;
+            display: flex;
+            align-items: center;
+            background: var(--background);
+            box-shadow: inset 0 0 0 var(--border-width) var(--border);
+            transition: box-shadow 0.3s;
+        }
         .birthday input {
-        --w: 40px;
-    }
-        .birthday input:first-of-type {
-        --w: 58px;
-    }
-        .birthday input::-moz-placeholder {
-        font-size: 24px;
-        color: var(--text-placeholder);
-    }
-        .birthday input:-ms-input-placeholder {
-        font-size: 24px;
-        color: var(--text-placeholder);
-    }
-        .birthday input::placeholder {
-        font-size: 24px;
-        color: var(--text-placeholder);
-    }
-        .birthday span {
-        display: block;
-        opacity: 0.4;
-        font-size: 24px;
-        margin: -6px 3px 0 3px;
-        color: var(--text-placeholder);
-    }
-</style>
+            -webkit-appearance: none;
+            background: none;
+            border: none;
+            outline: none;
+            text-align: center;
+            font-family:'Myriad Pro Regular';
+            font-size: 24px;
+            margin: 0;
+            line-height: 28px;
+            padding: 5px 5px 5px 5px;
+            width: var(--w, 22px);
+            color: var(--text);
+        }
+        .birthday svg {
+            margin: 0 4px 0 12px;
+        }
+            .birthday input {
+            --w: 52px;
+        }
+            .birthday input:first-of-type {
+            --w: 64px;
+        }
+            .birthday input::-moz-placeholder {
+            font-size: 24px;
+            color: var(--text-placeholder);
+        }
+            .birthday input:-ms-input-placeholder {
+            font-size: 24px;
+            color: var(--text-placeholder);
+        }
+            .birthday input::placeholder {
+            font-size: 24px;
+            color: var(--text-placeholder);
+        }
+            .birthday span {
+            display: block;
+            opacity: 0.4;
+            font-size: 24px;
+            margin: -6px 3px 0 3px;
+            color: var(--text-placeholder);
+        }
+    </style>
 </head>
 <body>
 
@@ -172,9 +180,16 @@
             <input type="text" class="month" id="mm" placeholder="MM" maxlength="2" pattern="\d*">
             <span>-</span>
             <input type="text" class="day" id="dd" placeholder="DD" maxlength="2" pattern="\d*">
-        </div>        
+            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="#999999" class="bi bi-bar-chart-fill" viewBox="0 0 16 16">
+                <path d="M1 11a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1v3a1 1 0 0 1-1 1H2a1 1 0 0 1-1-1v-3zm5-4a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1v7a1 1 0 0 1-1 1H7a1 1 0 0 1-1-1V7zm5-5a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1v12a1 1 0 0 1-1 1h-2a1 1 0 0 1-1-1V2z"/>
+            </svg> 
+        </div>       
     </div></div>
 </div>
+
+    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
 
 <script>
 
