@@ -253,6 +253,9 @@
 
 <script>
 
+    precise_mode.checked = localStorage.getItem('precise_mode') === "true"
+    highlight_yw.checked = localStorage.getItem('highlight_yw') === "true"
+
     let lived = 1775;
     let ny = 0;
     for(y=0; y<86+1;y++) {
@@ -269,7 +272,6 @@
                 if(y==0) month.innerHTML = " "
                 else month.innerHTML = ny-1
                 if((ny-1) % 5 == 0) month.classList.add("year_bold");
-                //if((ny-1) == 34) month.classList.add("year_high");
             }
             else {
                 for(i=0; i<4; i++) {
@@ -400,7 +402,7 @@
             this.value = this.value[0]
             return
         }
-        if(this.value.length == 0) mm.focus();
+        //if(this.value.length == 0) mm.focus();
         else calculate()
     }
 
