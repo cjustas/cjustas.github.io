@@ -29,7 +29,7 @@
         display: block;
     }
     .decade {
-        margin-bottom: 0.3vw;
+        margin-bottom: 0.29vw;
     }
     .year {
         display: flex;
@@ -38,7 +38,7 @@
     }
     .month {
         display: flex;
-        margin:0 0.22vw;
+        margin:0 0.18vw;
     }
     .week {
         width: 1vw;
@@ -155,7 +155,7 @@
         display: block;
         opacity: 0.4;
         font-size: 24px;
-        margin: -8px 3px 0 3px;
+        margin: -6px 3px 0 3px;
         color: var(--text-placeholder);
     }
 </style>
@@ -217,6 +217,7 @@
     }
 
     function calculate() {
+        console.log(dd.value)
         if(yyyy.value < 1900 || yyyy.value > dayjs().year()) return;
         if(mm.value < 1 || mm.value > 12) return;
         if(dd.value < 1 || dd.value > 31) return;
@@ -248,7 +249,11 @@
         calculate()
     }
 
-    yyyy.oninput = function() {
+    yyyy.onkeyup = function() {
+        if(parseInt(this.value) > dayjs().year()) {
+            this.value = this.value.slice(0, -1)
+            return
+        }
         if (this.value.length === parseInt(this.attributes["maxlength"].value)) {
             mm.value = ""
             mm.focus();
@@ -256,16 +261,42 @@
         calculate();
     }
 
-    mm.oninput = function() {
+    yyyy.onclick = function() {
+        yyyy.value = ""
+        yyyy.focus();
+    }
+
+    mm.onkeyup = function() {
+        if(parseInt(this.value) > 12) {
+            this.value = this.value[0]
+            return
+        }
         if (this.value.length === parseInt(this.attributes["maxlength"].value)) {
             dd.value = ""
             dd.focus();
         }
-        calculate()
+        else
+            if(this.value.length == 0) yyyy.focus();
+            else calculate()
     }
 
-    dd.oninput = function() {
-        calculate()
+    mm.onclick = function() {
+        mm.value = ""
+        mm.focus();
+    }
+
+    dd.onkeyup = function() {
+        if(parseInt(this.value) > 31) {
+            this.value = this.value[0]
+            return
+        }
+        if(this.value.length == 0) mm.focus();
+        else calculate()
+    }
+
+    dd.onclick = function() {
+        dd.value = ""
+        dd.focus();
     }
 
 </script>
