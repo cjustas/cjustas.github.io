@@ -63,7 +63,7 @@
             width: 1vw;
             height: 1vw;
             font-size: 0.75vw;
-            margin: 0.06vw;
+            margin: 0 0.06vw 0 0.06vw;
             font-family:'Myriad Pro Light';
             font-weight:normal;
             color: #999999;
@@ -319,7 +319,7 @@
         calculate()
     }
 
-    yyyy.onkeyup = function() {
+    yyyy.oninput = function() {
         if(parseInt(this.value) > dayjs().year()) {
             this.value = this.value.slice(0, -1)
             return
@@ -333,10 +333,9 @@
 
     yyyy.onclick = function() {
         yyyy.value = ""
-        yyyy.focus();
     }
 
-    mm.onkeyup = function() {
+    mm.oninput = function() {
         if(parseInt(this.value) > 12) {
             this.value = this.value[0]
             return
@@ -352,21 +351,19 @@
 
     mm.onclick = function() {
         mm.value = ""
-        mm.focus();
     }
 
-    dd.onkeyup = function() {
+    dd.oninput = function() {
         if(parseInt(this.value) > 31) {
             this.value = this.value[0]
             return
         }
-        //if(this.value.length == 0) mm.focus();
+        if(this.value.length == 0) mm.focus();
         else calculate()
     }
 
     dd.onclick = function() {
         dd.value = ""
-        dd.focus();
     }
 
 </script>
