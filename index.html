@@ -72,6 +72,7 @@
             border-radius: 50%;
             transition: box-shadow 2s ease;
             transition: color 2s ease;
+            cursor: default;
         }
         .year_number {
             padding-top: -0.06vw;
@@ -81,21 +82,103 @@
             color: #000000;
         }
         @keyframes blinking {
-        50% {
-            opacity: 50%;
-        }
+            50% {
+                opacity: 50%;
+            }
         }
         .week-done-last {
             animation: blinking 2s infinite;
         }
-        .week_high, .week_number:hover {
+
+    [week-tooltip] {
+        position: relative;
+        z-index: 2;
+        cursor: default;
+        transition: background 1s ease;
+    }
+
+    [week-tooltip]:before {
+        position: absolute;
+        bottom: 100%;
+        left: 50%;
+        margin-bottom: 5px;
+        margin-left: -1.5vw;
+        padding: 0.3vw;
+        width: 3vw;
+        -webkit-border-radius: 3px;
+        -moz-border-radius: 3px;
+        border-radius: 3px;
+        background-color: #999999;
+        color: #fff;
+        content: attr(week-tooltip);
+        text-align: center;
+        font-size: 0.75vw;
+        line-height: 1.2;
+        transition: background 1s ease;
+    }
+
+    [week-tooltip]:after {
+        position: absolute;
+        bottom: 100%;
+        left: 50%;
+        margin-left: -5px;
+        width: 0;
+        border-top: 5px solid #999999;
+        border-right: 5px solid transparent;
+        border-left: 5px solid transparent;
+        content: " ";
+        font-size: 0;
+        line-height: 0;
+        transition: background 1s ease;
+    }
+
+    [year-tooltip] {
+        position: relative;
+        z-index: 2;
+        cursor: default;
+        transition: background 1s ease;
+    }
+
+    [year-tooltip]:before {
+        position: absolute;
+        right: 100%;
+        margin-right: 5px;
+        padding: 0.3vw;
+        width: 3vw;
+        -webkit-border-radius: 3px;
+        -moz-border-radius: 3px;
+        border-radius: 3px;
+        background-color: #999999;
+        color: #fff;
+        content: attr(year-tooltip);
+        text-align: center;
+        font-size: 0.75vw;
+        line-height: 1.2;
+        transition: background 1s ease;
+    }
+
+    [year-tooltip]:after {
+        position: absolute;
+        right: 100%;
+        width: 0;
+        border-top: 5px solid transparent;
+        border-bottom: 5px solid transparent;
+        border-left: 5px solid #999999;
+        content: " ";
+        font-size: 0;
+        line-height: 0;
+        transition: background 1s ease;
+    }
+
+/*
+        .week_high {
             top: -1vw;
             position: relative;
         }
         .year_high {
             left: -1vw;
             position: relative;
-        }
+        }*/
         .date_area {
             position: fixed;
             bottom: 0;
@@ -305,12 +388,20 @@
 
         for (var i = 0; i < week_numbers.length; i++) {
             week_numbers[i].classList.remove("week_high");
-            if(i+1 == parseInt(diff%(years*52))) week_numbers[i].classList.add("week_high");
+            week_numbers[i].removeAttribute("week-tooltip");
+            if(i+1 == parseInt(diff%(years*52))) {
+                week_numbers[i].classList.add("week_high");
+                week_numbers[i].setAttribute("week-tooltip", "Week");
+            }
         }
 
         for (var i = 0; i < year_numbers.length; i++) {
             year_numbers[i].classList.remove("year_high");
-            if(i-1 == years) year_numbers[i].classList.add("year_high");
+            year_numbers[i].removeAttribute("year-tooltip");
+            if(i-1 == years) {
+                year_numbers[i].classList.add("year_high");
+                year_numbers[i].setAttribute("year-tooltip", "Year");
+            }
         }
 
         for(let elem of weeks){
