@@ -80,12 +80,21 @@
             font-weight:1000;
             color: #000000;
         }
-        .week_high, .year_high, .week_number:hover {
-            font-weight:1000;
-            color: #000000;
-            box-shadow: 0 0 0 0.1vw rgba(153,153,153,.50);
-            margin: 0.06vw;
-            font-family:'Myriad Pro Regular';
+        @keyframes blinking {
+        50% {
+            opacity: 50%;
+        }
+        }
+        .week-done-last {
+            animation: blinking 2s infinite;
+        }
+        .week_high, .week_number:hover {
+            top: -1vw;
+            position: relative;
+        }
+        .year_high {
+            left: -1vw;
+            position: relative;
         }
         .date_area {
             position: fixed;
@@ -304,10 +313,21 @@
             if(i-1 == years) year_numbers[i].classList.add("year_high");
         }
 
-        for (var i = 0; i < weeks.length; i++) {
-            if(i >= diff) weeks[i].classList.remove("week-done");  
-            else weeks[i].classList.add("week-done");      
+        for(let elem of weeks){
+            elem.classList.remove('week-done-last');
         }
+
+        var week_done_last
+        for (var i = 0; i < weeks.length; i++) {
+            if(i >= diff) {
+                weeks[i].classList.remove("week-done");
+            } 
+            else {
+                weeks[i].classList.add("week-done");
+                week_done_last = weeks[i]
+            }      
+        }
+        week_done_last.classList.add("week-done-last");
     }
 
     let by = localStorage.getItem('bd_year');
