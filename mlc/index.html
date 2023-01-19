@@ -1,0 +1,636 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+
+    <script src="https://unpkg.com/dayjs@1.10.7/dayjs.min.js"></script>
+    <script src="https://unpkg.com/dayjs@1.10.7/plugin/duration.js"></script>
+    <script src="https://unpkg.com/dayjs@1.10.7/plugin/toArray.js"></script>
+    <script>dayjs.extend(window.dayjs_plugin_duration)</script>
+    <script>dayjs.extend(window.dayjs_plugin_toArray)</script>
+    <style>
+        @font-face {
+            font-family: 'Myriad Pro Regular';
+            font-style: normal;
+            font-weight: normal;
+            src: local('Myriad Pro Regular'), url('res/MYRIADPRO-REGULAR.woff') format('woff');
+        }
+        @font-face {
+            font-family: 'Myriad Pro Light';
+            font-style: normal;
+            font-weight: normal;
+            src: local('Myriad Pro Light'), url('res/MYRIADPRO-LIGHT.woff') format('woff');
+        }
+        h1 {
+            font-family:'Myriad Pro Regular';
+            letter-spacing: .22rem;
+            font-weight:normal;
+            font-size: 3vw;
+            margin: 25px 0 25px 0;
+        }
+        #my_life {
+            display: block;
+        }
+        .decade {
+            margin-bottom: 0.29vw;
+        }
+        .year {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+        .month {
+            display: flex;
+            margin:0 0.18vw;
+        }
+        .week {
+            width: 1vw;
+            height: 1vw;
+            background-color: #999999;
+            border-radius: 50%;
+            margin: 0.06vw;
+            transition: background 1s ease;
+        }
+        .week-done {
+            background-color: #000000;
+            transition: background 1s ease;
+        }
+        .week_number, .year_number {
+            display: flex;
+            width: 1vw;
+            height: 1vw;
+            font-size: 0.75vw;
+            margin: 0 0.06vw 0 0.06vw;
+            font-family:'Myriad Pro Light';
+            font-weight:normal;
+            color: #999999;
+            justify-content: center;
+            align-items: center;
+            border-radius: 50%;
+            transition: box-shadow 2s ease;
+            transition: color 2s ease;
+            cursor: default;
+        }
+        .year_number {
+            padding-top: -0.06vw;
+        }
+        .week_bold, .year_bold {
+            font-weight:1000;
+            color: #000000;
+        }
+        @keyframes blinking {
+            50% {
+                opacity: 50%;
+            }
+        }
+        .week-done-last {
+            animation: blinking 2s infinite;
+        }
+
+    [week-tooltip] {
+        position: relative;
+        z-index: 2;
+        cursor: default;
+        transition: background 1s ease;
+    }
+
+    [week-tooltip]:before {
+        position: absolute;
+        bottom: 100%;
+        left: 50%;
+        margin-bottom: 5px;
+        margin-left: -1.5vw;
+        padding: 0.3vw;
+        width: 3vw;
+        -webkit-border-radius: 3px;
+        -moz-border-radius: 3px;
+        border-radius: 3px;
+        background-color: #999999;
+        color: #fff;
+        content: attr(week-tooltip);
+        text-align: center;
+        font-size: 0.75vw;
+        line-height: 1.2;
+        transition: background 1s ease;
+    }
+
+    [week-tooltip]:after {
+        position: absolute;
+        bottom: 100%;
+        left: 50%;
+        margin-left: -0.35rem;
+        width: 0;
+        border-top: 0.35rem solid red;
+        border-right: 0.35rem solid transparent;
+        border-left: 0.35rem solid transparent;
+        content: " ";
+        font-size: 0;
+        line-height: 0;
+        transition: background 1s ease;
+    }
+
+    [year-tooltip] {
+        position: relative;
+        z-index: 2;
+        cursor: default;
+        transition: background 1s ease;
+    }
+
+    [year-tooltip]:before {
+        position: absolute;
+        right: 100%;
+        margin-right: 5px;
+        padding: 0.3vw;
+        width: 3vw;
+        -webkit-border-radius: 3px;
+        -moz-border-radius: 3px;
+        border-radius: 3px;
+        background-color: #999999;
+        color: #fff;
+        content: attr(year-tooltip);
+        text-align: center;
+        font-size: 0.75vw;
+        line-height: 1.2;
+        transition: background 1s ease;
+    }
+
+    [year-tooltip]:after {
+        position: absolute;
+        right: 100%;
+        width: 0;
+        border-top: 5px solid transparent;
+        border-bottom: 5px solid transparent;
+        border-left: 5px solid #999999;
+        content: " ";
+        font-size: 0;
+        line-height: 0;
+        transition: background 1s ease;
+    }
+
+/* Extra small devices (phones, 600px and down) */
+@media only screen and (max-width: 600px) {
+    h1 {
+        margin: 10px 0 10px 0;
+    }
+
+    [week-tooltip]:before {
+        margin-bottom: 2px;
+        -webkit-border-radius: 1px;
+        -moz-border-radius: 1px;
+        border-radius: 1px;
+    }
+    [week-tooltip]:after {
+        margin-left: -2px;
+        border-top: 2px solid #999999;
+        border-right: 2px solid transparent;
+        border-left: 2px solid transparent;
+    }
+
+    [year-tooltip]:before {
+        margin-right: 2px;
+        -webkit-border-radius: 1px;
+        -moz-border-radius: 1px;
+        border-radius: 1px;
+    }
+    [year-tooltip]:after {
+        border-top: 2px solid transparent;
+        border-bottom: 2px solid transparent;
+        border-left: 2px solid #999999;
+    }
+}
+
+/* Small devices (portrait tablets and large phones, 600px and up) */
+@media only screen and (min-width: 600px) {
+    h1 {
+        margin: 10px 0 10px 0;
+    }
+    
+    [week-tooltip]:before {
+        margin-bottom: 3px;
+        -webkit-border-radius: 1px;
+        -moz-border-radius: 1px;
+        border-radius: 1px;
+    }
+    [week-tooltip]:after {
+        margin-left: -3px;
+        border-top: 3px solid #999999;
+        border-right: 3px solid transparent;
+        border-left: 3px solid transparent;
+    }
+    
+    [year-tooltip]:before {
+        margin-right: 3px;
+        -webkit-border-radius: 1px;
+        -moz-border-radius: 1px;
+        border-radius: 1px;
+    }
+    [year-tooltip]:after {
+        border-top: 3px solid transparent;
+        border-bottom: 3px solid transparent;
+        border-left: 3px solid #999999;
+    }
+}
+
+/* Medium devices (landscape tablets, 768px and up) */
+@media only screen and (min-width: 768px) {
+    h1 {
+        margin: 13px 0 13px 0;
+    }
+
+    [week-tooltip]:before {
+        margin-bottom: 3px;
+        -webkit-border-radius: 1px;
+        -moz-border-radius: 1px;
+        border-radius: 1px;
+    }
+    [week-tooltip]:after {
+        margin-left: -3px;
+        border-top: 3px solid #999999;
+        border-right: 3px solid transparent;
+        border-left: 3px solid transparent;
+    }
+    
+    [year-tooltip]:before {
+        margin-right: 3px;
+        -webkit-border-radius: 1px;
+        -moz-border-radius: 1px;
+        border-radius: 1px;
+    }
+    [year-tooltip]:after {
+        border-top: 3px solid transparent;
+        border-bottom: 3px solid transparent;
+        border-left: 3px solid #999999;
+    }
+}
+
+/* Large devices (laptops/desktops, 992px and up) */
+@media only screen and (min-width: 992px) {
+    h1 {
+        margin: 18px 0 18px 0;
+    }
+
+    [week-tooltip]:before {
+        margin-bottom: 4px;
+        -webkit-border-radius: 2px;
+        -moz-border-radius: 2px;
+        border-radius: 2px;
+    }
+    [week-tooltip]:after {
+        margin-left: -4px;
+        border-top: 4px solid #999999;
+        border-right: 4px solid transparent;
+        border-left: 4px solid transparent;
+    }
+    
+    [year-tooltip]:before {
+        margin-right: 4px;
+        -webkit-border-radius: 2px;
+        -moz-border-radius: 2px;
+        border-radius: 2px;
+    }
+    [year-tooltip]:after {
+        border-top: 4px solid transparent;
+        border-bottom: 4px solid transparent;
+        border-left: 4px solid #999999;
+    }
+}
+
+/* Extra large devices (large laptops and desktops, 1200px and up) */
+@media only screen and (min-width: 1200px) {
+    h1 {
+        margin: 25px 0 25px 0;
+    }
+
+    [week-tooltip]:before {
+        margin-bottom: 5px;
+        -webkit-border-radius: 5px;
+        -moz-border-radius: 5px;
+        border-radius: 5px;
+    }
+    [week-tooltip]:after {
+        margin-left: -5px;
+        border-top: 5px solid #999999;
+        border-right: 5px solid transparent;
+        border-left: 5px solid transparent;
+    }
+    
+    [year-tooltip]:before {
+        margin-right: 5px;
+        -webkit-border-radius: 5px;
+        -moz-border-radius: 5px;
+        border-radius: 5px;
+    }
+    [year-tooltip]:after {
+        border-top: 5px solid transparent;
+        border-bottom: 5px solid transparent;
+        border-left: 5px solid #999999;
+    }
+}
+
+        .date_area {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            display: flex;
+            margin: 20px;
+            z-index: 20;
+            justify-content: center;
+            align-items: center;
+        }
+        .date_button {
+            display: inline-block;
+            padding: 10px 25px;
+            margin: 0;
+            width: auto;
+            min-width: 250px;
+            line-height: 1.42;
+            text-decoration: none;
+            text-align: center;
+            vertical-align: middle;
+            white-space: normal;
+            cursor: pointer;
+            border: 2px solid #999999;
+            -webkit-user-select: none;
+            -ms-user-select: none;
+            user-select: none;
+            -webkit-appearance: none;
+            -moz-appearance: none;
+            color: #fff;
+            background: #ffffff;
+            transition: background .15s ease;
+            border-radius: 35px;
+        }
+        .birthday {
+            --background: #fff;
+            --border: #e6e7ee;
+            --border-width: 0px;
+            --border-focus: #0077ff;
+            --border-focus-width: 0px;
+            --text: #00104b;
+            --text-placeholder: #999fb7;
+            --default: #0077ff;
+            --smoke: var(--text-placeholder);
+            --error: #ff5252;
+            border-radius: 8px;
+            position: relative;
+            display: flex;
+            align-items: center;
+            background: var(--background);
+            box-shadow: inset 0 0 0 var(--border-width) var(--border);
+            transition: box-shadow 0.3s;
+        }
+        .birthday input {
+            -webkit-appearance: none;
+            background: none;
+            border: none;
+            outline: none;
+            text-align: center;
+            font-family:'Myriad Pro Regular';
+            font-size: 24px;
+            margin: 0;
+            line-height: 28px;
+            padding: 5px 5px 5px 5px;
+            width: var(--w, 22px);
+            color: var(--text);
+        }
+        .birthday svg {
+            height: 20px;
+            width: 20px;
+            margin: -4px 4px 0 12px;
+            fill: #999999;
+            transition: 0.3s;
+        }
+        .birthday svg:hover {
+            fill: #000000;
+            transition: 0.3s;
+        }
+            .birthday input {
+            --w: 52px;
+        }
+        .birthday input:first-of-type {
+            --w: 64px;
+        }
+        .birthday input::-moz-placeholder {
+            font-size: 24px;
+            color: var(--text-placeholder);
+        }
+        .birthday input:-ms-input-placeholder {
+            font-size: 24px;
+            color: var(--text-placeholder);
+        }
+        .birthday input::placeholder {
+            font-size: 24px;
+            color: var(--text-placeholder);
+        }
+        .birthday span {
+            display: block;
+            opacity: 0.4;
+            font-size: 24px;
+            margin: -6px 3px 0 3px;
+            color: var(--text-placeholder);
+        }
+        body.modal-open {
+            overflow: auto !important;
+        }
+
+        body.modal-open[style] {
+            padding-right: 0px !important;
+        }
+
+        .form-check-input:checked {
+            background-color: black;
+            border-color: #999999;
+        }
+
+        .form-switch .form-check-input {
+            background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='-4 -4 8 8'%3e%3ccircle r='3' fill='black'/%3e%3c/svg%3e");
+        }
+        .form-switch .form-check-input:focus {
+            background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='-4 -4 8 8'%3e%3ccircle r='3' fill='grey'/%3e%3c/svg%3e");
+            box-shadow: 0 0 0 .25rem rgba(153,153,153,.25);
+        }
+    </style>
+</head>
+<body>
+
+    <div style="text-align:center">
+        <h1>MY LIFE CALENDAR</h1>
+        <div id="my_life"></div>
+        <div class="date_area"><div class="date_button">
+            <div class="birthday">
+                <input type="text" class="year" id="yyyy" placeholder="YYYY" maxlength="4" pattern="\d*">
+                <span>-</span>
+                <input type="text" class="month" id="mm" placeholder="MM" maxlength="2" pattern="\d*">
+                <span>-</span>
+                <input type="text" class="day" id="dd" placeholder="DD" maxlength="2" pattern="\d*">
+            </div>       
+        </div></div>
+    </div>
+
+    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
+
+<script>
+
+    let lived = 1775;
+    let ny = 0;
+    for(y=0; y<86+1;y++) {
+        let year = document.createElement('div');
+        year.className = "year";
+        let nw = 1;
+        if((y) % 10 == 0) year.classList.add("decade");
+        for(x=0; x<13+1;x++) {
+            var month = document.createElement('div');
+            month.className = "month";
+            if(x==0) {
+                var month = document.createElement('div');
+                month.className = "year_number";
+                if(y==0) month.innerHTML = " "
+                else month.innerHTML = ny-1
+                if((ny-1) % 5 == 0) month.classList.add("year_bold");
+            }
+            else {
+                for(i=0; i<4; i++) {
+                    var week = document.createElement('div');
+                    if(y==0) {
+                        week.className = "week_number"
+                        week.innerHTML = nw
+                        if(i==3 || (y==0 && nw == 1)) week.classList.add("week_bold");
+                        if((nw) == 7) week.classList.add("week_high");
+                    }
+                    else {
+                        week.className = "week"
+                    }
+                    nw++;
+                    month.appendChild(week);
+                }
+            }
+            year.appendChild(month);
+        }
+        document.getElementById('my_life').appendChild(year);
+        ny++
+    }
+
+    function calculate() {
+        if(yyyy.value < 1900 || yyyy.value > dayjs().year()) return;
+        if(mm.value < 1 || mm.value > 12) return;
+        if(dd.value < 1 || dd.value > 31) return;
+        let bd = dayjs(yyyy.value+"-"+mm.value+"-"+dd.value, "YYYY-MM-DD")
+        if(!bd.isValid()) return;
+        let durr = dayjs.duration(dayjs().diff(bd))
+
+        let totaldays = parseInt(durr.asDays())
+        let years = parseInt(totaldays/365.2422)
+        let days_of_year = totaldays - parseInt(years*365.2422)-1
+        let diff = parseInt((years*52+parseInt(days_of_year/7)))
+
+        localStorage.setItem('bd_year', bd.toArray()[0]);
+        localStorage.setItem('bd_month', bd.toArray()[1]+1);
+        localStorage.setItem('bd_day', bd.toArray()[2]);
+
+        var my_life = document.querySelector('#my_life');
+        var weeks = my_life.querySelectorAll('.week');
+        var year_numbers = my_life.querySelectorAll('.year_number');
+        var week_numbers = my_life.querySelectorAll('.week_number');
+
+        for (var i = 0; i < week_numbers.length; i++) {
+            week_numbers[i].classList.remove("week_high");
+            week_numbers[i].removeAttribute("week-tooltip");
+            if(i+1 == parseInt(diff%(years*52))) {
+                week_numbers[i].classList.add("week_high");
+                week_numbers[i].setAttribute("week-tooltip", "Week");
+            }
+        }
+
+        for (var i = 0; i < year_numbers.length; i++) {
+            year_numbers[i].classList.remove("year_high");
+            year_numbers[i].removeAttribute("year-tooltip");
+            if(i-1 == years) {
+                year_numbers[i].classList.add("year_high");
+                year_numbers[i].setAttribute("year-tooltip", "Year");
+            }
+        }
+
+        for(let elem of weeks){
+            elem.classList.remove('week-done-last');
+        }
+
+        var week_done_last
+        for (var i = 0; i < weeks.length; i++) {
+            if(i >= diff) {
+                weeks[i].classList.remove("week-done");
+            } 
+            else {
+                weeks[i].classList.add("week-done");
+                week_done_last = weeks[i]
+            }      
+        }
+        week_done_last.classList.add("week-done-last");
+    }
+
+    let by = localStorage.getItem('bd_year');
+    let bm = localStorage.getItem('bd_month');
+    let bd = localStorage.getItem('bd_day');
+    if(by > 0 && bm > 0 && bd > 0) {
+        yyyy.value = by
+        mm.value = bm < 10 ? "0"+bm : bm
+        dd.value = bd < 10 ? "0"+bd : bd
+        calculate()
+    }
+
+    yyyy.oninput = function() {
+        if(parseInt(this.value) > dayjs().year()) {
+            this.value = this.value.slice(0, -1)
+            return
+        }
+        if (this.value.length === parseInt(this.attributes["maxlength"].value)) {
+            mm.value = ""
+            mm.focus();
+        }
+        calculate();
+    }
+
+    yyyy.onclick = function() {
+        yyyy.value = ""
+    }
+
+    mm.oninput = function() {
+        if(parseInt(this.value) > 12) {
+            this.value = this.value[0]
+            return
+        }
+        if (this.value.length === parseInt(this.attributes["maxlength"].value)) {
+            dd.value = ""
+            dd.focus();
+        }
+        else
+            if(this.value.length == 0) yyyy.focus();
+            else calculate()
+    }
+
+    mm.onclick = function() {
+        mm.value = ""
+    }
+
+    dd.oninput = function() {
+        if(parseInt(this.value) > 31) {
+            this.value = this.value[0]
+            return
+        }
+        if(this.value.length == 0) mm.focus();
+        else calculate()
+    }
+
+    dd.onclick = function() {
+        dd.value = ""
+    }
+
+</script>
+
+</body>
+</html> 
