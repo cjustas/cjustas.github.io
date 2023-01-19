@@ -121,11 +121,11 @@
         position: absolute;
         bottom: 100%;
         left: 50%;
-        margin-left: -5px;
+        margin-left: -0.35rem;
         width: 0;
-        border-top: 5px solid #999999;
-        border-right: 5px solid transparent;
-        border-left: 5px solid transparent;
+        border-top: 0.35rem solid red;
+        border-right: 0.35rem solid transparent;
+        border-left: 0.35rem solid transparent;
         content: " ";
         font-size: 0;
         line-height: 0;
@@ -170,15 +170,116 @@
         transition: background 1s ease;
     }
 
-/*
-        .week_high {
-            top: -1vw;
-            position: relative;
-        }
-        .year_high {
-            left: -1vw;
-            position: relative;
-        }*/
+/* Extra small devices (phones, 600px and down) */
+@media only screen and (max-width: 600px) {
+    [week-tooltip]:before {
+        margin-bottom: 2px;
+    }
+    [week-tooltip]:after {
+        margin-left: -2px;
+        border-top: 2px solid #999999;
+        border-right: 2px solid transparent;
+        border-left: 2px solid transparent;
+    }
+
+    [year-tooltip]:before {
+        margin-right: 2px;
+    }
+    [year-tooltip]:after {
+        border-top: 2px solid transparent;
+        border-bottom: 2px solid transparent;
+        border-left: 2px solid #999999;
+    }
+}
+
+/* Small devices (portrait tablets and large phones, 600px and up) */
+@media only screen and (min-width: 600px) {
+    [week-tooltip]:before {
+        margin-bottom: 3px;
+    }
+    [week-tooltip]:after {
+        margin-left: -3px;
+        border-top: 3px solid #999999;
+        border-right: 3px solid transparent;
+        border-left: 3px solid transparent;
+    }
+    
+    [year-tooltip]:before {
+        margin-right: 3px;
+    }
+    [year-tooltip]:after {
+        border-top: 3px solid transparent;
+        border-bottom: 3px solid transparent;
+        border-left: 3px solid #999999;
+    }
+}
+
+/* Medium devices (landscape tablets, 768px and up) */
+@media only screen and (min-width: 768px) {
+    [week-tooltip]:before {
+        margin-bottom: 3px;
+    }
+    [week-tooltip]:after {
+        margin-left: -3px;
+        border-top: 3px solid #999999;
+        border-right: 3px solid transparent;
+        border-left: 3px solid transparent;
+    }
+    
+    [year-tooltip]:before {
+        margin-right: 3px;
+    }
+    [year-tooltip]:after {
+        border-top: 3px solid transparent;
+        border-bottom: 3px solid transparent;
+        border-left: 3px solid #999999;
+    }
+}
+
+/* Large devices (laptops/desktops, 992px and up) */
+@media only screen and (min-width: 992px) {
+    [week-tooltip]:before {
+        margin-bottom: 4px;
+    }
+    [week-tooltip]:after {
+        margin-left: -4px;
+        border-top: 4px solid #999999;
+        border-right: 4px solid transparent;
+        border-left: 4px solid transparent;
+    }
+    
+    [year-tooltip]:before {
+        margin-right: 4px;
+    }
+    [year-tooltip]:after {
+        border-top: 4px solid transparent;
+        border-bottom: 4px solid transparent;
+        border-left: 4px solid #999999;
+    }
+}
+
+/* Extra large devices (large laptops and desktops, 1200px and up) */
+@media only screen and (min-width: 1200px) {
+    [week-tooltip]:before {
+        margin-bottom: 5px;
+    }
+    [week-tooltip]:after {
+        margin-left: -5px;
+        border-top: 5px solid #999999;
+        border-right: 5px solid transparent;
+        border-left: 5px solid transparent;
+    }
+    
+    [year-tooltip]:before {
+        margin-right: 5px;
+    }
+    [year-tooltip]:after {
+        border-top: 5px solid transparent;
+        border-bottom: 5px solid transparent;
+        border-left: 5px solid #999999;
+    }
+}
+
         .date_area {
             position: fixed;
             bottom: 0;
